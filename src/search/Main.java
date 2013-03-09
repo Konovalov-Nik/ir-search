@@ -1,5 +1,9 @@
 package search;
 
+import com.google.common.base.Joiner;
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -30,7 +34,8 @@ public class Main {
             return;
         }
         if (splt[0].equals("search")) {
-            String query = splt[1];
+            String[] queryTokens = Arrays.copyOfRange(splt, 1, splt.length);
+            String query = Joiner.on(" ").join(queryTokens);
             Set<Document> documents = engine.doSearch(query);
             System.out.println("Results for query: " + query);
             for (Document document : documents) {

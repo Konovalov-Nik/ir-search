@@ -23,7 +23,7 @@ public class SmartTokenizer implements Tokenizer {
             scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Collections.addAll(tokens, normalize(line));
+                Collections.addAll(tokens, normalize(line).split("\\s"));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
