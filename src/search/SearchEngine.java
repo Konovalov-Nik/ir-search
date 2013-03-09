@@ -2,6 +2,8 @@ package search;
 
 import search.processors.SearchProcessor;
 import search.processors.SingleWordSearchProcessor;
+import search.processors.SmartProcessor;
+import search.tokenizers.SmartTokenizer;
 import search.tokenizers.SpaceTokenizer;
 import search.tokenizers.Tokenizer;
 
@@ -16,7 +18,7 @@ public class SearchEngine {
 
     public void doIndex(String path) {
         Document document = new Document(new File(path));
-        Tokenizer tokenizer = new SpaceTokenizer(document);
+        Tokenizer tokenizer = new SmartTokenizer(document);
 
         while (tokenizer.hasNextToken()) {
             String token  = tokenizer.nextToken();
@@ -28,7 +30,7 @@ public class SearchEngine {
     }
 
     public Set<Document> doSearch (String query) {
-        SearchProcessor processor = new SingleWordSearchProcessor();
+        SearchProcessor processor = new SmartProcessor();
         return processor.search(query, dictionary);
     }
 
