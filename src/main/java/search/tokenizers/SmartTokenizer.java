@@ -38,7 +38,7 @@ public class SmartTokenizer implements Tokenizer {
         return line
                 .replaceAll(" - ", " ")
                 .replaceAll("-", "")
-                .replaceAll("[\\.\\,\\?\\!\\:\\;]", " ")
+                .replaceAll("[\\.\\,\\?\\!\\:\\;\\'\\\\/]", " ")
                 .toLowerCase();
     }
 

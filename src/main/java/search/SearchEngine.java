@@ -1,5 +1,6 @@
 package search;
 
+import search.processors.AndOrProcessor;
 import search.processors.SearchProcessor;
 import search.processors.SingleWordSearchProcessor;
 import search.processors.SmartProcessor;
@@ -30,7 +31,7 @@ public class SearchEngine {
     }
 
     public Set<Document> doSearch (String query) {
-        SearchProcessor processor = new SmartProcessor();
+        SearchProcessor processor = new AndOrProcessor();
         return processor.search(query, dictionary);
     }
 
