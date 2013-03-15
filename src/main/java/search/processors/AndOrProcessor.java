@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import search.Document;
 import search.tokenizers.SmartTokenizer;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -12,11 +11,11 @@ import java.util.*;
  */
 public class AndOrProcessor implements SearchProcessor {
     private Map<String, TreeSet<Document>> dictionary;
+
     @Override
     public Set<Document> search(String query, Map<String, TreeSet<Document>> dictionary) {
         this.dictionary = dictionary;
         String normalizedQuery = SmartTokenizer.normalize(query);
-        List<String> queryTokens = Arrays.asList(normalizedQuery.split("\\s"));
         return processOrs(normalizedQuery);
     }
 

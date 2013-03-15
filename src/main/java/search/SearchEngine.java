@@ -2,10 +2,7 @@ package search;
 
 import search.processors.AndOrProcessor;
 import search.processors.SearchProcessor;
-import search.processors.SingleWordSearchProcessor;
-import search.processors.SmartProcessor;
 import search.tokenizers.SmartTokenizer;
-import search.tokenizers.SpaceTokenizer;
 import search.tokenizers.Tokenizer;
 
 import java.io.*;
@@ -22,7 +19,7 @@ public class SearchEngine {
         Tokenizer tokenizer = new SmartTokenizer(document);
 
         while (tokenizer.hasNextToken()) {
-            String token  = tokenizer.nextToken();
+            String token = tokenizer.nextToken();
             if (!dictionary.containsKey(token)) {
                 dictionary.put(token, new TreeSet<Document>());
             }
@@ -30,7 +27,7 @@ public class SearchEngine {
         }
     }
 
-    public Set<Document> doSearch (String query) {
+    public Set<Document> doSearch(String query) {
         SearchProcessor processor = new AndOrProcessor();
         return processor.search(query, dictionary);
     }
@@ -54,11 +51,11 @@ public class SearchEngine {
             } catch (IOException e) {
                 // no op
             }
-            try{
-                if (outputStream!= null) {
+            try {
+                if (outputStream != null) {
                     outputStream.close();
                 }
-            }  catch (IOException e) {
+            } catch (IOException e) {
                 // no op
             }
 
