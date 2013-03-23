@@ -1,5 +1,6 @@
 package search;
 
+import com.google.inject.Inject;
 import search.processors.AndOrProcessor;
 import search.processors.SearchProcessor;
 import search.tokenizers.SmartTokenizer;
@@ -12,11 +13,17 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class SearchEngine {
+    @Inject
+    private Tokenizer tokenizer;
+
+    @Inject
+    private SearchProcessor processor;
+
     private Map<String, TreeSet<Document>> dictionary = new HashMap<String, TreeSet<Document>>();
 
     public void doIndex(String path) {
         Document document = new Document(new File(path));
-        Tokenizer tokenizer = new SmartTokenizer(document);
+         tokenizer.setDocument(document);
 
         while (tokenizer.hasNextToken()) {
             String token = tokenizer.nextToken();
@@ -28,7 +35,6 @@ public class SearchEngine {
     }
 
     public Set<Document> doSearch(String query) {
-        SearchProcessor processor = new AndOrProcessor();
         return processor.search(query, dictionary);
     }
 
@@ -39,10 +45,8 @@ public class SearchEngine {
             outputStream = new FileOutputStream(path);
             serializer = new ObjectOutputStream(outputStream);
             serializer.writeObject(dictionary);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } finally {
             try {
                 if (serializer != null) {

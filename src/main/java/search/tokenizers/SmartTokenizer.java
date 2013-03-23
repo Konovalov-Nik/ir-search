@@ -16,23 +16,6 @@ public class SmartTokenizer implements Tokenizer {
     private File file;
     private List<String> tokens = new ArrayList<String>();
 
-    public SmartTokenizer(Document document) {
-        file = document.getFile();
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                Collections.addAll(tokens, normalize(line).split("\\s"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
-        }
-    }
 
     public static String normalize(String line) {
         return line
@@ -52,6 +35,30 @@ public class SmartTokenizer implements Tokenizer {
     @Override
     public boolean hasNextToken() {
         return lastTokenIdx < tokens.size();
+    }
+
+    @Override
+    public void setDocument(Document document) {
+        this.file = document.getFile();
+        init();
+    }
+
+    @Override
+    public void init() {
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                Collections.addAll(tokens, normalize(line).split("\\s"));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
     }
 
 }

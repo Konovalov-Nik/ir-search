@@ -1,6 +1,8 @@
 package search;
 
 import com.google.common.base.Joiner;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,7 +13,9 @@ public class Main {
         printHello();
         String line;
         Scanner scanner = new Scanner(System.in);
-        SearchEngine engine = new SearchEngine();
+        Injector injector = Guice.createInjector(new SearchModule());
+
+        SearchEngine engine = injector.getInstance(SearchEngine.class);
         while (true) {
             System.out.print(">> ");
             line = scanner.nextLine();
@@ -54,7 +58,6 @@ public class Main {
             String path = splt[1];
             engine.doLoad(path);
             System.out.println("Loaded dictionary from " + path + ".");
-            return;
         }
     }
 

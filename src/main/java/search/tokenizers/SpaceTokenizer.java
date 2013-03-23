@@ -13,8 +13,26 @@ public class SpaceTokenizer implements Tokenizer {
     private File file;
     private List<String> tokens = new ArrayList<String>();
 
-    public SpaceTokenizer(Document document) {
+    private int lastTokenIdx = 0;
+
+    @Override
+    public String nextToken() {
+        return tokens.get(lastTokenIdx++);
+    }
+
+    @Override
+    public boolean hasNextToken() {
+        return lastTokenIdx < tokens.size();
+    }
+
+    @Override
+    public void setDocument(Document document) {
         this.file = document.getFile();
+        init();
+    }
+
+    @Override
+    public void init() {
         Scanner scanner = null;
         try {
             scanner = new Scanner(new FileInputStream(file));
@@ -28,18 +46,5 @@ public class SpaceTokenizer implements Tokenizer {
                 scanner.close();
             }
         }
-
-    }
-
-    private int lastTokenIdx = 0;
-
-    @Override
-    public String nextToken() {
-        return tokens.get(lastTokenIdx++);
-    }
-
-    @Override
-    public boolean hasNextToken() {
-        return lastTokenIdx < tokens.size();
     }
 }
