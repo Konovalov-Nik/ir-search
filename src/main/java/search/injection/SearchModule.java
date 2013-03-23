@@ -1,4 +1,4 @@
-package search;
+package search.injection;
 
 import com.google.inject.AbstractModule;
 import search.processors.AndOrProcessor;

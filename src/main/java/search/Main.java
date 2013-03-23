@@ -3,6 +3,7 @@ package search;
 import com.google.common.base.Joiner;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import search.injection.SearchModule;
 
 import java.util.Arrays;
 import java.util.Scanner;
