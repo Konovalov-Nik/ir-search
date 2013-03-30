@@ -35,7 +35,17 @@ public class AndOrProcessor implements SearchProcessor {
     }
 
     private Set<Document> processAnds(String query) {
-        List<String> splittedQuery = splitTopLevel(query.trim(), " and ");
+        List<String> andSplitt = splitTopLevel(query.trim(), " and ");
+        List<String> splittedQuery = new ArrayList<String>();
+        for (String andToken : andSplitt) {
+            Collections.addAll(splittedQuery, andToken.split("\\s\\s*"));
+        }
+        for (String term : new ArrayList<String>(splittedQuery)) {
+            if (SmartTokenizer.stopWords.contains(term)) {
+                splittedQuery.remove(term);
+            }
+        }
+
         if (splittedQuery.size() == 0) {
             return new TreeSet<Document>();
         }
@@ -48,11 +58,19 @@ public class AndOrProcessor implements SearchProcessor {
             result = dictionary.get(firstToken);
         }
 
+        if (result == null) {
+            result = new TreeSet<>();
+        }
+
         for (String token : splittedQuery) {
             if (token.startsWith("(") && token.endsWith(")")) {
                 result = processOrs(token.substring(1, token.length() - 1));
             } else {
-                result = Sets.intersection(result, dictionary.get(token));
+                TreeSet<Document> tokenSet = dictionary.get(token);
+                if (tokenSet == null) {
+                    tokenSet =  new TreeSet<>();
+                }
+                result = Sets.intersection(result, tokenSet);
             }
         }
         return result;
